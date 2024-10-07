@@ -7,14 +7,32 @@ reddit = praw.Reddit(
     user_agent='my_test_app/0.1 by /u/YOUR_USERNAME'
 )
 
-# Specify the subreddit
-subreddit = reddit.subreddit('wallstreetbets')
+# Function to fetch latest posts
+def fetch_latest_posts(subreddit_name, limit=10):
+    subreddit = reddit.subreddit(subreddit_name)
+    posts = []
 
-# Fetch the latest posts
-for submission in subreddit.new(limit=10):  # Change the limit as needed
-    print(f"Title: {submission.title}")
-    print(f"Score: {submission.score}")
-    print(f"URL: {submission.url}")
-    print(f"Comments: {submission.num_comments}")
-    print(f"Created: {submission.created_utc}")
-    print(f"Selftext: {submission.selftext}\n")
+    # Fetch the latest posts
+    for submission in subreddit.new(limit=limit):  # Change the limit as needed
+        post_data = {
+            "title": submission.title,
+            "score": submission.score,
+            "url": submission.url,
+            "comments": submission.num_comments,
+            "created": submission.created_utc,
+            "selftext": submission.selftext
+        }
+        posts.append(post_data)
+    
+    return posts
+
+# Example usage:
+if __name__ == '__main__':
+    latest_posts = fetch_latest_posts('wallstreetbets', limit=10)
+    for post in latest_posts:
+        print(f"Title: {post['title']}")
+        print(f"Score: {post['score']}")
+        print(f"URL: {post['url']}")
+        print(f"Comments: {post['comments']}")
+        print(f"Created: {post['created']}")
+        print(f"Selftext: {post['selftext']}\n")
