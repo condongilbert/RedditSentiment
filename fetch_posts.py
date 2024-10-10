@@ -2,9 +2,9 @@ import praw
 
 # Configure your Reddit API client
 reddit = praw.Reddit(
-    client_id='abcd1234',
-    client_secret='efgh5678ijkl',
-    user_agent='my_test_app/0.1 by /u/YOUR_USERNAME'
+    client_id='JwBBjyCT4vfSbyBDgcW6VQ',
+    client_secret='kMoJdCbBK7spWd58JHGYGyfNbZcsfA',
+    user_agent='SentApp/0.1 by /u/NoBookkeeper3492'
 )
 
 # Function to fetch latest posts
