@@ -28,7 +28,7 @@ def fetch_latest_posts(subreddit_name, limit=10):
 
 # Example usage:
 if __name__ == '__main__':
-    latest_posts = fetch_latest_posts('wallstreetbets', limit=10)
+    latest_posts = fetch_latest_posts('wallstreetbets', limit=100)
     for post in latest_posts:
         print(f"Title: {post['title']}")
         print(f"Score: {post['score']}")
