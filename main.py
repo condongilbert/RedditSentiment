@@ -1,14 +1,31 @@
-from fetch_posts import fetch_latest_posts
-from preprocessing import preprocess_text
+import matplotlib.pyplot as plt
+import pandas as pd
+from datetime import datetime
+from textblob import TextBlob
+from fetch_posts import fetch_latest_posts  # Import your fetch_latest_posts function
 
-def main():
-    # Fetch latest posts from WallStreetBets
-    posts = fetch_latest_posts('wallstreetbets', limit=10)
+# Fetch latest Reddit posts
+posts = fetch_latest_posts(subreddit_name="wallstreetbets", limit=100)  # Adjust parameters as needed
 
-    # Preprocess the text of each post
-    for post in posts:
-        cleaned_text = preprocess_text(post['text'])
-        print(f"Original: {post['text']}\nProcessed: {cleaned_text}\n")
+# Convert posts into a DataFrame
+df = pd.DataFrame(posts)
 
-if __name__ == '__main__':
-    main()
+# Convert timestamp to datetime
+df['created_datetime'] = df['created_utc'].apply(lambda x: datetime.utcfromtimestamp(x))
+
+# Sentiment analysis using TextBlob
+def get_sentiment(text):
+    analysis = TextBlob(text)
+    return analysis.sentiment.polarity  # Returns a value between -1 (negative) to 1 (positive)
+
+# Apply sentiment analysis
+df['sentiment'] = df['selftext'].apply(get_sentiment)
+
+# Plotting sentiment over time
+plt.figure(figsize=(10, 6))
+plt.plot(df['created_datetime'], df['sentiment'], marker='o')
+plt.title('Sentiment Over Time')
+plt.xlabel('Date')
+plt.ylabel('Sentiment Polarity')
+plt.grid(True)
+plt.show()
