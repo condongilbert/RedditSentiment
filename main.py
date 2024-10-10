@@ -11,7 +11,7 @@ posts = fetch_latest_posts(subreddit_name="wallstreetbets", limit=100)  # Adjust
 df = pd.DataFrame(posts)
 
 # Convert timestamp to datetime
-df['created_datetime'] = df['created_utc'].apply(lambda x: datetime.utcfromtimestamp(x))
+df['created_datetime'] = pd.to_datetime(df['created'], unit='s')
 
 # Sentiment analysis using TextBlob
 def get_sentiment(text):
